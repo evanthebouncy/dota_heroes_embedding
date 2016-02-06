@@ -16,7 +16,7 @@ def get_hero_responses(hero_name):
         ret += x
   regex = re.compile('[^a-zA-Z ]')
   ret = str(regex.sub('', ret))
-  ret = ret.split(" ")
+  ret = ret.split(' ')
   ret = filter(lambda x: len(x) > 0, ret)
   return ret
 
