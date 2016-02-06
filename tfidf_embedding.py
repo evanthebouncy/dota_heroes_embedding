@@ -1,3 +1,4 @@
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -69,6 +70,7 @@ tsne = TSNE(n_components = 2,
 	method = 'exact',
 	random_state = 1) 
 dim_red_mat = tsne.fit_transform(tfidf_mat.toarray())
+np.savetxt('tsne_embedding.csv', X = dim_red_mat, delimiter = ',', fmt = '%10.5f') #dumping to csv, 5 decimal places
 
 #plotting
 hero_names = [line.split(' ')[0] for line in responses]
