@@ -13,7 +13,9 @@ from jitter import jitter
 #reading in the crap, minor preprocessing
 responses = []
 lemmatizer = WordNetLemmatizer() #lemmatising so arrows -> arrow, hells -> hell, etc.
-baddies = set(['Spectre', 'Phoenix\n', 'Io\n'])
+# baddies = set(['Spectre', 'Phoenix\n', 'Io\n'])
+# test to see if spectre and io and phoenix would work
+baddies = set([])
 with open('data') as f:
 	for line in f:
 		words = line.split(' ')

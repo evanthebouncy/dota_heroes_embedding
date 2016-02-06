@@ -1,7 +1,7 @@
 import numpy as np
 
 # apply a small jitter so things don't completely overlap
-def jitter(data_dict, ratio_sep_dist = 1.0 / 40):
+def jitter(data_dict, ratio_sep_dist = 1.0 / 36):
   def get_max_length(data_dict):
     x_min = 99999
     x_max = -99999
