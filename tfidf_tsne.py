@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -70,10 +71,13 @@ tsne = TSNE(n_components = 2,
 	method = 'exact',
 	random_state = 1) 
 dim_red_mat = tsne.fit_transform(tfidf_mat.toarray())
-np.savetxt('tsne_coordinates.csv', X = dim_red_mat, delimiter = ',', fmt = '%10.5f') #dumping to csv, 5 decimal places
+
+#outputting to csv as (hero name, x coordinate, y coordinate)
+hero_names = [line.split(' ')[0] for line in responses]
+output = pd.DataFrame(data = dim_red_mat, index = hero_names, columns = ['x', 'y'])
+output.to_csv('tsne_coordinates.csv', index_label = 'hero')
 
 #plotting
-hero_names = [line.split(' ')[0] for line in responses]
 x, y = dim_red_mat[:, 0], dim_red_mat[:,1]
 plt.scatter(x, y, linewidths = 1, alpha = 0)
 for i, name in enumerate(hero_names):
