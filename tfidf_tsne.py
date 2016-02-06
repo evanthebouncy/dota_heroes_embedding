@@ -83,18 +83,25 @@ hero_names = [line.split(' ')[0] for line in responses]
 output = pd.DataFrame(data = dim_red_mat, index = hero_names, columns = ['x', 'y'])
 output.to_csv('tsne_coordinates.csv', index_label = 'hero')
 
-# dump to json
+# apply jitter
 x, y = dim_red_mat[:, 0], dim_red_mat[:,1]
 data_dict = dict()
 for i, name in enumerate(hero_names):
   data_dict[name] = np.array([x[i], y[i]])
 
-# apply jitter
-data_dict = jitter(data_dict)
+jit_data_dict = jitter(data_dict)
 
 # turn numpyary into a normal list
+# also rename nature prophet lmao
+data_dict = dict()
 for i, name in enumerate(hero_names):
-  data_dict[name] = list(data_dict[name])
+  new_name = name
+  if "nature" in name:
+    new_name = "nature_prophet"
+  data_dict[new_name] = list(jit_data_dict[name])
+
+print "hmm"
+print data_dict
 
 data_json = open("data_vis.js", "w")
 data_json.write("data_vis = "+json.dumps(data_dict)+"\n")
