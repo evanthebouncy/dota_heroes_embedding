@@ -10,7 +10,7 @@ evan's dota2wiki scraper, creates the data file
 the raw text file of scraped responses
 
 ##tfidf_tsne.py
-creates the tfidf matrix from the raw text, runs a 2d tsne embedding and outputs the results to csv
+creates the tfidf matrix from the raw text, runs a 2d tsne embedding, and outputs the results to csv
 
 ##tsne_coordinates.csv
 the x, y coordinates of each hero 
