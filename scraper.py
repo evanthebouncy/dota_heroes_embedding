@@ -20,6 +20,7 @@ def get_hero_responses(hero_name):
   ret = filter(lambda x: len(x) > 0, ret)
   return ret
 
+# turns out it was difficult to scrape hero names so fuck it lmao
 hero_names = [
 "Ancient_Apparition",
 "Bane",

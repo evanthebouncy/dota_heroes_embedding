@@ -1,10 +1,14 @@
+# @author: manic-mailman@github
+
 import numpy as np
 import pandas as pd
+import json
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.wordnet import WordNetLemmatizer
 from sklearn.feature_extraction.stop_words import ENGLISH_STOP_WORDS
 from sklearn.manifold import TSNE
+from jitter import jitter
 
 #reading in the crap, minor preprocessing
 responses = []
@@ -64,12 +68,12 @@ tfidf_mat = vectorizer.fit_transform(responses)
 
 #tsne - we can afford pretty conservative hyperparamters for learning_rate and early_exaggeration, our data is pretty small
 tsne = TSNE(n_components = 2, 
-	perplexity = 10.0, 
-	early_exaggeration = 2.0,
-	learning_rate = 50,
-	init = 'pca', 
-	method = 'exact',
-	random_state = 1) 
+  perplexity = 10.0, 
+  early_exaggeration = 2.0,
+  learning_rate = 50,
+  init = 'pca', 
+  method = 'exact',
+  random_state = 1) 
 dim_red_mat = tsne.fit_transform(tfidf_mat.toarray())
 
 #outputting to csv as (hero name, x coordinate, y coordinate)
@@ -77,11 +81,18 @@ hero_names = [line.split(' ')[0] for line in responses]
 output = pd.DataFrame(data = dim_red_mat, index = hero_names, columns = ['x', 'y'])
 output.to_csv('tsne_coordinates.csv', index_label = 'hero')
 
-#plotting
+# dump to json
 x, y = dim_red_mat[:, 0], dim_red_mat[:,1]
-plt.scatter(x, y, linewidths = 1, alpha = 0)
+data_dict = dict()
 for i, name in enumerate(hero_names):
-	plt.annotate(name, (x[i], y[i]))
-plt.xlabel('1st Embedding Dimension', fontsize = 16)
-plt.ylabel('2nd Embedding Dimension', fontsize = 16)
-plt.show()
+  data_dict[name] = np.array([x[i], y[i]])
+
+# apply jitter
+data_dict = jitter(data_dict)
+
+# turn numpyary into a normal list
+for i, name in enumerate(hero_names):
+  data_dict[name] = list(data_dict[name])
+
+data_json = open("data_vis.js", "w")
+data_json.write("data_vis = "+json.dumps(data_dict)+"\n")
