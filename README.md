@@ -13,4 +13,4 @@ the raw text file of scraped responses
 creates the tfidf matrix from the raw text, runs a 2d tsne embedding and outputs the results to csv
 
 ##tsne_coordinates.csv
-the coordinates of each hero in the 2d embedding
+the hero and resulting x, y coordinates of the embedding
